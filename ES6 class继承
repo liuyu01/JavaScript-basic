@@ -1,0 +1,23 @@
+Class 继承
+可以使用 `class` 去实现继承，并且实现起来很简单
+class Parent{
+  constructor(value){
+    this.val = value;
+  }
+  getValue(){
+    console.log(this.val);
+  }
+}
+class Child extends Parent{
+  constructor(value){
+    super(value)
+    this.val = value;
+  }
+}
+let child = new Child(1);
+child.getValue(); //1
+child instanceof Parent //true
+
+class` 实现继承的核心在于使用 `extends` 表明继承自哪个父类，并且在子类构造函数中必须调用 `super`，因为这段代码可以看
+成 `Parent.call(this, value)`。
+当然了，之前也说了在 JS 中并不存在类，`class` 的本质就是函数。
