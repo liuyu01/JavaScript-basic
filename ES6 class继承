@@ -11,7 +11,6 @@ class Parent{
 class Child extends Parent{
   constructor(value){
     super(value)
-    this.val = value;
   }
 }
 let child = new Child(1);
