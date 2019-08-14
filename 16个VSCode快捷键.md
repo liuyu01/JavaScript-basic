@@ -74,5 +74,16 @@ Ctrl + D
 
 如果你像我一样，你可能会有一种无法控制的欲望，想要在一个组中重新排列选项卡，其中选项卡相互关联，左边的选项卡是比较重要文件，而右边的选项卡是相对不重要的文件。 通过 Ctrl+Shift+PgUp/PgDown向左/向右移动编辑器。
 
+##### 17.括号配对着色(Bracket Pair Colorizer) 和 彩虹缩进(Indent Rainbow)
+括号配对着色(Bracket Pair Colorizer) 和 彩虹缩进(Indent Rainbow)。这是两个不同的扩展。然而，他们就像是一对情侣，可以完美的配合使用。这些扩展将为你的编辑器添加一系列颜色，并使代码块易于辨别，一旦你习惯了它们，如果 VSCode 没有它们就会让人觉得很平淡。
 
+##### 18.Import Cost
+该扩展允许您查看导入模块的大小，它对 Webpack 中的 bundlers 有很大帮助，你可以查看是导入整个库还是只导入特定的实用程序。
 
+##### 19.REST Client 
+REST Client 它允许你发送 HTTP 请求并直接在 Visual Studio 代码中查看响应。
+
+##### 20.自动闭合标记(Auto Close Tag)和自动重命名标记(Auto Rename Tag)
+##### 21.Indenticator(缩进指示器)
+
+我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme
