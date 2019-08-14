@@ -87,4 +87,4 @@ REST Client 它允许你发送 HTTP 请求并直接在 Visual Studio 代码中�
 ##### 21.Indenticator(缩进指示器)
 ##### 22.Live Server — 一个具有静态和动态页面的实时重新加载功能的本地开发服务器。
 
-我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme
+我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme 、 Live Server
