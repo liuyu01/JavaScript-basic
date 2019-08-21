@@ -90,7 +90,7 @@ console.log(hasBig)  // true
 
 并不会全部遍历，不做多余的活（性能优良）
 
-##### 6.every 全符合
+6.every 全符合
 
 `every`对每一个元素执行一个`callback`，直到它找到一个使 `callback` 返回 `false`的元素，就返回`false`，直到遍历完成也没有返回`false`的话，就返回`true`
 
@@ -113,3 +113,56 @@ console.log(big) //{id: "1003", weight: 120}
 var i = potatoes.findIndex(potato => {return potato.weight > 100})
 
 console.log(i) //2
+
+##### ES5数组的方法
+
+array.splice(start,deleteCount,item1,item2,...)：新增、修改、删除
+
+start 为数组的开始坐标
+
+deleteCount 为需要从开始坐标起，删除的个数，可以为0，代表不删除
+
+item 为需要新增进去的元素
+
+slice():删除、修改
+
+str.slice(start, end) 方法可提取字符串的某个部分，并以新的字符串返回被提取的部分。
+
+使用 start（包含） 和 end（不包含） 参数来指定字符串提取的部分。
+
+字符串中第一个字符位置为 0, 第二个字符位置为 1, 以此类推。
+
+**提示：** 如果是负数，则该参数规定的是从字符串的尾部开始算起的位置。也就是说，-1 指字符串的最后一个字符，-2 指倒数第二个字符，以此类推。
+
+###### Array.prototype.slice()`**slice()**` 方法返回一个新的数组对象，这一对象是一个由 `begin` 和 `end` 决定的原数组的**浅拷贝**（包括 `begin`，不包括`end`）。原始数组不会被改变。
+
+splice():所进行的操作会影响到原数组
+
+slice():所进行的操作不会影响到原数组
+
+`concat()` 方法用于合并两个或多个数组。此方法不会更改现有数组，而是返回一个新数组。
+
+`includes()` 方法用来判断一个数组是否包含一个指定的值，根据情况，如果包含则返回 true，否则返回 false。
+
+`fill()` 方法用一个固定值填充一个数组中从起始索引到终止索引内的全部元素。不包括终止索引。
+
+push() - 末尾添加元素
+unshift() - 开头添加元素
+pop() - 末尾删除元素
+shift() - 开头删除元素
+splice() - 增删改元素
+concat() - 拼合两个数组
+filter() - 过滤数组元素
+forEach() - 遍历操作原数组
+indexOf() - 顺序查找第一个
+lastIndexOf() - 倒序查找第一个
+map() - 遍历返回新数组
+reverse() - 反转数组元素
+slice() - 查找指定位置元素
+sort() - 数组排序
+toString() - 数组转字符串
+includes() - 数组包含某元素
+fill() - 填充数组
+reduce() - 数组累计
+find() - 查找数组元素
+findIndex() - 查找元素索引
