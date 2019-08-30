@@ -25,3 +25,18 @@ const obj = {
 };
 obj.c; //NaN
 obj.fn(); //10
+
+
+
+obj = {
+	a: 1,
+	getA() {
+	console.log("getA: ", **this**.a);
+	}
+};
+obj.getA(); //1
+x = obj.getA;
+x();//undefined
+setTimeout(obj.getA, 100);//2   undefined 首先定时器会返回一个执行的ID。其次返回this.a的值。
+
+如果没有特殊指向，setInterval和setTimeout的回调函数中this的指向都是window。这是因为JS的定时器方法是定义在window下的。
