@@ -90,7 +90,7 @@ console.log(hasBig)  // true
 
 并不会全部遍历，不做多余的活（性能优良）
 
-6.every 全符合
+##### 6.every 全符合
 
 `every`对每一个元素执行一个`callback`，直到它找到一个使 `callback` 返回 `false`的元素，就返回`false`，直到遍历完成也没有返回`false`的话，就返回`true`
 
@@ -113,6 +113,18 @@ console.log(big) //{id: "1003", weight: 120}
 var i = potatoes.findIndex(potato => {return potato.weight > 100})
 
 console.log(i) //2
+
+##### 9.Array.from()
+
+将一个类数组对象或者可遍历对象转换成一个真正的数组。
+
+##### 10.Array.of()
+
+`Array.of()` 方法创建一个具有可变数量参数的新数组实例，而不考虑参数的数量或类型。
+
+##### 11.entries()、keys()、values()
+
+ES6 提供三个新的方法 —— entries()，keys()和values() —— 用于遍历数组。它们都返回一个遍历器对象，可以用for...of循环进行遍历，唯一的区别是keys()是对键名的遍历、values()是对键值的遍历，entries()是对键值对的遍历
 
 ##### ES5数组的方法
 
