@@ -12,7 +12,7 @@ fun.bind(thisArg, param1, param2,...)
 
 call/apply：fun执行的结果
 
-bind：返回fun的拷贝，并拥有指定的this值和初始参数
+bind：返回fun的拷贝，并拥有指定的this值和初始参数。不调用函数，但生成一个函数并指定函数内的this。返回值是一个函数。
 
 ##### 参数：
 
@@ -65,9 +65,19 @@ apply是以a开头，它传给fun的参数是Array,也是以a开头的
 - call/apply返回fun的执行结果
 - bind返回fun的拷贝，并指定了fun的this指向，保存了fun的参数
 
+性能：
+
+apply的性能比call的性能低，低5到6倍左右
+
 ##### call/apply/bind的核心理念：借用方法
 
 借助已实现的方法，改变方法中数据的this指向，减少重复代码，节省内存。
+
+```
+const result = Math.max.apply(null,[3,5,9]);
+```
+
+Math.max就是借用的方法。
 
 ##### call、apply，该用哪个？
 
