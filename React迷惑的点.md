@@ -105,7 +105,7 @@ class Foo extends React.Component{
 
 缺点：每次render都会重复创建函数，性能会差一点
 
-4.public class fields型
+4.利用class fields(类字段)型
 
 ```
 class Foo extends React.Component{
