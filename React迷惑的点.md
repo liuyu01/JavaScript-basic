@@ -159,3 +159,105 @@ this.setState((state) => {
 我这里还是用最简单的语言让你理解：在 React 的 setState 函数实现中，会根据 isBatchingUpdates(默认是 false) 变量判断是否直接更新 this.state 还是放到队列中稍后更新。然后有一个 batchedUpdate 函数，可以修改 isBatchingUpdates 为 true，当 React 调用事件处理函数之前，或者生命周期函数之前就会调用 batchedUpdate 函数，这样的话，setState 就不会同步更新 this.state，而是放到更新队列里面后续更新。
 
 这样你就可以理解为什么原生事件和 setTimeout/setinterval 里面调用 this.state 会同步更新了吧，因为通过这些函数调用的 React 没办法去调用 batchedUpdate 函数将 isBatchingUpdates 设置为 true，那么这个时候 setState 的时候默认就是 false，那么就会同步更新。
+
+##### JSX是什么？
+
+全称：javascript and XML
+
+定义：可扩展（自定义）标记性语言，基于javascript，融入了XML，我们可以在js中书写xml，使用JSX可以很好的描述UI在页面中应该呈现它应有的交互形式
+
+```
+ReactDOM.render(要渲染的组件，组件要挂载的位置)
+```
+
+JSX其实就是javascript对象，是用来描述UI结构信息的。
+
+JSX是JavaScript语言的一种语法扩展，长得像HTML，但并不是HTML，附加了原生HTML标签不具备的能力，例如：自定义属性，以及后续的组件传值
+
+UI界面显示什么样，取决于JSX对象结构，换句话说，取决于render()函数里面的return关键字后面返回的JSX内容结构
+
+引入React.js库是为了解析识别JSX语法，同时创建虚拟DOM，而引入react-dom是为了渲染组件，将组件挂载到特定的位置上，同时将虚拟DOM转换为真实DOM，插入到页面中
+
+使用扩展运算符...在JSX中传递整个props对象
+
+JSX中添加属性的命名方式是camelCase 
+
+React中定义组件，组件名称的首字母大写。
+
+##### React的工作方式及优点
+
+使用React的方式，就可以避免构建这样复杂的程序结构，无论何种事件，引发的都是React组件的重新渲染，它只会修改数据变化的DOM部分，并不需要去关心怎么去操作DOM
+
+![img](https://user-gold-cdn.xitu.io/2019/7/26/16c2c557affceade?imageslim)
+
+
+
+构建组件，本质上就是编写javascript函数，而组件中最重要的是数据，在React中数据分两种：props和state。当定义一个组件时，它接收任意的形参（即props），并用于返回描述页面展示内容的React元素
+
+无论props还是state，当它们任何一个发生改变时，都会引发render函数的重新渲染
+
+一个UI组件所渲染的结果，就是通过props和state这两个属性在render方法里面映射生成对应的HTML结构
+
+##### Props
+
+当通过函数声明或class自定义一个组件时，它会将JSX所接受的属性转换为以对象传递给该定义时的组件，这个接收的对象就是props。props就是组件定义属性的集合，它是组件对外的接口，由外部通过JSX属性传入设置（也就是从外部传递给内部组件的数据）
+
+在React中，你可以将prop类似于HTML标签元素的属性。而在React中，Prop的属性值类型可以任何数据类型。当然如果是非字符串数据类型，在JSX中，必须要用{}把prop值包裹起来。
+
+父组件向子组件传值是通过设置JSX属性的方式实现的，而在子组件内部获取父组件数据是通过this.props来获取的。也可以这么认为，props就是对外提供的数据接口。
+
+##### State
+
+state代表的是当前组件的内部状态，可以把组件看成一个‘状态机’，它是能够随着时间变化的数据，更多的是应当在实现交互时使用，根据状态state的改变呈现不同的UI展示。
+
+当需要记录组件自身数据变化时，想要使组件具备交互的能力，那么需要有触发该组件基础数据模型改变的能力，那么此时就需要使用state
+
+通过在React中封装的事件，例如;onChange、onClick、onKeyDown、onFocus、onBlur等这些事件类型里面绑定事件方法内的setState都是异步的。
+
+如果是React控制的事件处理程序以及在它的钩子函数内调用setState，它不会同步的更新state
+
+在这里，只需要知道，对于在React中的JSX绑定的事件处理函数中调用setState方法是异步的就可以了。
+
+如果你需要基于当前的state来计算出新的值，那么setState就应该传递一个函数，而不是一个对象，它可以确保每次调用的都是使用最新的state。
+
+##### 多个setState调用会合并处理
+
+当在事件处理方法内多次调用setState方法时，render函数只会执行一次，并不会导致组件的重复渲染，因为React会将多个this.setState产生的修改放在一个队列里面进行批量延迟处理，所以从这点上讲，React设计这个setState是非常高效的，结合了函数式编程，不用考虑性能的问题。
+
+##### 那么究竟什么样的数据属性可以视为状态？
+
+状态（state）应该是会随着时间产生变化的数据，当更改这个状态（state），需要更新组件的UI，就可以将它定义成state，更多是在实现页面的交互时使用的
+
+写静态，没有任何交互页面时，用props进行数据的填充
+
+##### 无状态的组件（UI组件/函数式组件）
+
+可以用纯粹的函数来定义，所谓纯函数，只有输入和输出，无状态，无生命周期钩子函数，只是用作于接受父组件传来的props值渲染生成DOM结构，无交互，无逻辑层的数据展示
+
+无状态（函数式）组件，在性能上是最高效的，开销很低，因为没有那些生命周期函数
+
+##### props与state的灵魂对比
+
+相同点：都是组件内的数据,是一普通的javascript对象,都是用来保存信息的,这些信息可以控制组件的形态
+
+不同点：
+
+props是由父组件传入的(类似形参),用于定义外部组件的接口,是React组件的输入,它是从父组件传递给子组件的数据对象,在父(外部)组件JSX元素上,以自定义属性的形式定义，传递给当前组件,而在子组件内部,则以this.props或者props进行获取
+
+props只具备读的能力,不能直接被修改,如果想要修改某些值,用来响应用户的输入或者输出响应,可以借用React内提供的setState函数进行触发,并用state来作为替代
+
+state是当前组件的内部状态,它的作用范围只局限于当前组件,它是当前组件的一个私有变量.用于记录组件内部状态的,如果组件中的一些数据在某些时刻发生变化,或者做一些页面逻辑交互时,需要更新UI,这个时候就需要使用state来跟踪状态(例如控制一元素的显示隐藏来回切换等状态),它由组件本身管理,可以通过setState函数修改state
+
+##### 向事件处理程序中传递参数
+
+以下两种方式都可以向事件处理函数传递参数
+
+```
+<button onClick={this.handleBtnDelete.bind(this,id)}>删除</button>
+或者
+<button onClick={(e)=>this.handleBtnDelete(id,e)}>删除</button>
+```
+
+使用箭头函数，React的事件对象会被作为第二个参数传递，而且也必须显示的传递进去
+
+而通过bind的方式，事件对象以及更多的参数将会被隐式的传递进去
