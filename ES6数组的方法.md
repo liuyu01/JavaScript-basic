@@ -36,6 +36,14 @@ const total = nums.reduce(reducer,initialValue);
 
 console.log(total)
 
+`reduce` 可以理解为「归一」，意为海纳百川，万剑归一，完整的结构是 `Array.prototype.reduce(callbackfn[, initialValue])`，这里第二个参数并不是 thisArg 了，而是初始值 `initialValue`
+
+如果没有提供 `initialValue`，那么第一次调用 `callback` 函数时，`accumulator` 使用原数组中的第一个元素，`currentValue` 即是数组中的第二个元素。
+
+如果提供了 `initialValue`，`accumulator` 将使用这个初始值，`currentValue` 使用原数组中的第一个元素。
+
+在没有初始值的空数组上调用 `reduce` 将报错。
+
 ##### 2.forEach 批量操作
 
 var potatoes = [{ id: '1001', weight: 50 },
@@ -72,6 +80,10 @@ w = potatoes.map(potato => {return potato.weight +=20 })
 
 console.log(w) //[ 70, 100, 140, 60, 130, 80 ]
 
+`map` 函数接收两个参数，一个是必填项回调函数，另一个是可选项 callbackfn 函数执行时的 this 值。
+
+`map` 方法的主要功能就是把原数组中的每个元素按顺序执行一次 `callbackfn` 函数，并且把所有返回的结果组合在一起生成一个新的数组，`map` 方法的返回值就是这个新数组。
+
 ##### 4.filter 过滤筛选
 
 var bigOnes = potatoes.filter(potato =>{return potato.weight > 100 })
@@ -79,6 +91,10 @@ var bigOnes = potatoes.filter(potato =>{return potato.weight > 100 })
 console.log(bigOnes)//[ { id: '1003', weight: 120 }, { id: '1005', weight: 110 } ]
 
 返回一个新的对象数组，并不会改变原数组
+
+filter(callbackfn[, thisArg])
+
+`callbackfn` 执行结果如果是 true 就返回当前元素，false 则不返回，返回的所有元素组合在一起生成新数组，并返回。如果没有任何元素通过测试，则返回空数组。
 
 ##### 5.some 有符合
 
