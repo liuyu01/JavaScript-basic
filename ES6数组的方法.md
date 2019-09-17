@@ -194,3 +194,68 @@ fill() - 填充数组
 reduce() - 数组累计
 find() - 查找数组元素
 findIndex() - 查找元素索引
+
+##### 如何使用ES6语法给数组去重
+
+1.使用set
+
+先看一下Set定义：Set对象是值的集合，你可以按照插入的顺序迭代它的元素。Set中的元素只会出现一次，即Set中的元素是唯一的。Set对象允许你存储任何类型的唯一值，无论是原始值或者是对象引用。
+
+通过数组参数创建Set，因为Set只接受唯一值，重复的值会被去掉。创建之后，重复的值会被去掉。然后在用...操作符转换回数组。
+
+```
+const array = ['a', 1, 2, '1', 'a', 3];
+const uniqueSet = new Set(array);
+console.log(uniqueSet) //{"a", 1, 2, "1", 3}
+const backToArray = [...uniqueSet];
+console.log(backToArray) //["a", 1, 2, "1", 3]
+```
+
+把Set转换为数组还可以使用Array.from，如下：
+
+```
+const array = ['a', 1, 2, '1', 'a', 3];
+const backToArray = Array.from(new Set(array));
+console.log(backToArray)//["a", 1, 2, "1", 3]
+```
+
+2.使用Filter
+
+filter:根据条件过滤元素，返回符合条件的新数组。如果条件返回true，则元素包含在新数组中；如果条件返回false，则新数组中不包含这个元素。
+
+```
+const array = ['a', 1, 2, 'a', 3, '1'];
+const arr = [];
+array.filter((item,index)=>{
+	console.log(item,
+	index,
+	array.indexOf(item),
+	array.indexOf(item) === index
+	)
+	return array.indexOf(item) === index ? arr.push(item) : '';
+})
+console.log(arr) // ["a", 1, 2, 3, "1"]
+
+```
+
+也可以获取重复的元素：
+
+```
+const array = ['a', 1, 2, 'a', 3, '1'];
+const arr = [];
+array.filter((item,index)=>{
+	return array.indexOf(item) !== index ? arr.push(item) : '';
+})
+console.log(arr) //["a"]
+```
+
+3.使用Reduce
+
+通过reducer函数，符合条件就把元素添加到结果数组中，不用额外创建数组变量。
+
+```
+const array = ['a', 1, 2, 'a', 3, '1'];
+array.reduce((unique,item)=>{
+	return unique.includes(item) ? unique : [...unique, item]
+},[]);
+```
