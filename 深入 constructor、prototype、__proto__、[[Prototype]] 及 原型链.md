@@ -110,8 +110,6 @@ foo.__proto__ === Foo.prototype; // true
 
 ![img](https://user-gold-cdn.xitu.io/2019/8/30/16ce08c58e001f74?imageslim)
 
-
-
 ```
 实例.__proto__ === 原型
 原型.constructor === 构造函数
@@ -124,7 +122,11 @@ foo.__proto__ === Foo.prototype; // true
 
 属性修改机制：只会修改实例对象本身的属性，如果不存在，则进行添加该属性，如果需要修改原型的属性时，则可以用：b.prototype.x = 2;但是这样会造成所有继承于该对象的实例的属性发生改变。
 
+Object的hasOwnProperty()方法返回一个布尔值，判断对象是否包含特定的自身（非继承）属性。如果该属性或者方法是该对象自身定义的而不是原型链中定义的则返回true，否则返回false。
 
+object.hasOwnProperty(proName);判断proName的名称是不是object对象的一个属性或对象。
 
+isPrototypeOf()是用来判断指定对象object1是否存在于另一个对象object2的原型链中，是则返回true，否则返回false。
 
+object1.isPrototypeOf(object2);object1是一个对象的实例；object2是另一个将要检查其原型链的对象。原型链可以用来在同一个对象类型的不同实例之间共享功能。如果object2的原型链中包含object1，那么isPrototypeOf()返回true。如果object2不是一个对象或者object1没有出现在object2中的原型链中，isPrototypeOf()将返回false。
 
