@@ -320,3 +320,17 @@ async function myFunction(){
 await命令只能用在async函数之中，如果用在普通函数，就会报错。
 
 如果确实希望多个请求并发执行，可以使用Promise.all方法。
+
+async函数会返回一个promise，并且Promise对象的状态值是resolve（成功的）。
+
+如果你没有在async函数中写return，那么Promise对象resolve的值就是undefined。如果你写了return，那么return的值就会作为你成功的时候传入的值。
+
+await 等到之后，做了一件什么事情？
+
+那么右侧表达式的结果，就是await要等的东西。等到之后，对于await来说，分2个情况
+
+不是promise对象、是promise对象。如果不是promise，await会阻塞后面的代码，先执行async外面的同步代码，同步代码执行完，再回到async内部，把这个非promise的东西，作为await表达式的结果。如果它等到的是一个promise对象，await也会暂停async后面的代码，先执行async外面的同步代码，等着Promise对象fulfilled，然后把resolve的参数作为await表达式的运算结果。
+
+如果async里的代码都是同步的，那么这个函数被调用就会同步执行。
+
+如果在await后面接的这个promise都是同步的，后面的promise会同步执行，但是拿到这个指还是得等待（特别注意：如果promise没有一个成功的值传入，对await来说就算是失败了，下面的代码就不会执行），所以不管await后面的代码是同步还是异步，await总是需要时间，从右向左执行，先执行右侧的代码，执行完后，发现有await关键字，于是让出线程，阻塞代码。
