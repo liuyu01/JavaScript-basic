@@ -185,3 +185,4 @@ Ant Design Pro 使用的 Umi 支持两种路由方式：`browserHistory` 和 `ha
 
 基于 create-react-app 搭建的轻量级 Ant Design Pro 脚手架。
 
+DVA是基于redux,redux-saga和react-router的轻量级前端框架。
