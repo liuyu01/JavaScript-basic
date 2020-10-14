@@ -121,6 +121,7 @@ console.log(allBig) // false
 var big = potatoes.find(potato =>{return potato.weight > 100})
 
 console.log(big) //{id: "1003", weight: 120}
+语法：array.find(function(currentValue, index, arr), thisValue);
 
 ##### 8.findIndex 返回序号
 
