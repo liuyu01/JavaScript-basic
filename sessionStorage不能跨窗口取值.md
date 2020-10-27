@@ -1,0 +1,11 @@
+###### sessionStorage不能跨窗口取值
+
+sessionStorage是页面临时缓存存储，关闭当前页面后，就会自动删除，不能从另外一个新的窗口获取当前窗口的sessionStorage缓存。例如a.vue窗口中存在sessionStorage缓存，b.vue想取到a.vue中的sessionStorage缓存。
+解决方法，将sessionStorage中的缓存存储到localStorage本地缓存中（建议存储数据不要过多，并及时清理）。
+
+sessionStorage只存在当前tab里，打开新的tab就获取不到了，如果是一直单页面跳转就没问题。
+
+一开始用localStorage，不论打开多少个页面，哪怕关掉重新打开，同一个网站下的存储的数值还在，问题是，不能同时登录多个账户，以及设置过期时间等
+后来启用sessionStorage，可以登录多个账户了，页面一关存储的数值也会自动被清掉，不存在安全问题；但来了新的问题，登录后，父页面跳转打开的新页面，两个页面之间的值无法共享了。
+
+不同浏览器无法共享localStorage,相同浏览器的不同页面间可以共享相同的 localStorage（页面属于相同域名和端口），但是不同页面或标签页间无法共享sessionStorage的信息。这里需要注意的是，页面及标 签页仅指顶级窗口，如果一个标签页包含多个iframe标签且他们属于同源页面，那么他们之间是可以共享sessionStorage的。
