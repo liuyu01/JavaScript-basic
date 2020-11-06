@@ -88,4 +88,4 @@ REST Client 它允许你发送 HTTP 请求并直接在 Visual Studio 代码中�
 ##### 22.Live Server — 一个具有静态和动态页面的实时重新加载功能的本地开发服务器。
 ##### 23.vscode-icons  --一个可以给文件加对应的图标。设置-》文件图标主题-》安装其他文件图标主题-》vscode-icons
 
-我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme 、 Live Server、vscode-icons
+我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme 、 Live Server、vscode-icons、ESLint、Prettier-Code formatter、Vetur、VS Code Counter、Material Theme
