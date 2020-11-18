@@ -1023,3 +1023,508 @@ The function in the modifier **@shortkey** will be called repeatedly while the k
 <button v-shortkey.once="['ctrl', 'alt', 'o']" @shortkey="theAction()">Open</button>
 ```
 
+###### vue-事件修饰符（.prevent .stop  .once .capture .self）
+
+(1) .prevent --- 等于javascript的 event.preventDefault()
+
+作用：阻止默认程序的运行
+
+```
+<form @submit.prevent='SomeFunction'></form>
+```
+
+单独submit点击后会自动进行提交等一系列操作，prevent就可以阻止这些操作，让上面这段代码乖乖执行我们分配给它的SomeFunction。
+
+(2)  .stop 作用：阻止冒泡
+
+什么叫冒泡？冒泡就是子元素的事件传递到父元素。用以下代码为例，点击button后，触发inner-click，但是因为这个button在中间的这个middle里，同时也相当于我们点击了middle这个元素，也就是button的父元素。同理，也相当于点击了outer元素，也就是说执行了inner-click后再执行middle-click紧接着outer-click。**这就叫做冒泡，一个从子元素向父元素传递事件的行为。**
+
+```
+<div id="app"> 
+　　<div class="outer" @click="outer-click"> 
+　　　　<div class="middle" @click="middle-click"> 
+　　　　　　<button @click="inner-click">点击我(^_^)</button>
+    　　</div>
+    </div> 
+</div>
+```
+
+```
+methods: { 
+　　　　inner: function () {
+　　　　　　 console.log('inner： 这是最里面的Button' )
+　　　　}, 
+　　　　middle: function () { 
+　　　　　　console.log('middle: 这是中间的Div' )
+　　　　}, 
+　　　　outer: function () { 
+　　　　　　console.log('outer: 这是外面的Div' )
+　　　　} 
+　　} 
+```
+
+运行结果：
+
+```
+inner： 这是最里面的Button
+middle: 这是中间的Div
+outer: 这是外面的Div
+```
+
+.stop的存在就相当于阻止事件向父元素传递，保证只执行inner-cli
+
+```
+<div id="app"> 
+　　<div class="outer" @click="outer-cli"> 
+　　　　<div class="middle" @click="middle-cli"> 
+　　　　　　<button @click.stop="inner-cli">点击我(^_^)</button>
+    　　</div>
+    </div> 
+</div>
+```
+
+运行结果：
+
+```
+inner： 这是最里面的Button
+```
+
+同理.stop如果放在middle里面，那么输出结果为：
+
+```
+inner： 这是最里面的Button
+middle: 这是中间的Div
+```
+
+(3) .capture
+
+作用：打乱冒泡顺序
+
+用以下代码为例，**发生click事件时会优先去找你可以传递到的所有父元素中最后一个有.capture的元素**（这里可以传递到middle和outer，最后一个有.capture的元素是outer），然后优先执行这个元素的事件，**紧接着执行倒数第二个有.capture的事件**（middle）,最后再按照正常的冒泡顺序**从自己开始往上执行未经执行的父元素**的click事件。
+
+```
+<div id="app"> 
+　　<div class="outer" @click.capture="outer"> 
+　　　　<div class="middle" @click.capture="middle"> 
+　　　　　　<button @click="inner">点击我(^_^)</button>
+    　　</div>
+    </div> 
+</div>
+```
+
+运行结果：
+
+```
+outer: 这是外面的Div
+middle: 这是中间的Div
+inner： 这是最里面的Button
+```
+
+其余例子：
+
+```
+<div id="app"> 
+　　<div class="outer" @click="outer"> 
+　　　　<div class="middle" @click.capture="middle"> 
+　　　　　　<button @click="inner">点击我(^_^)</button>
+    　　</div>
+    </div> 
+</div>
+```
+
+运行结果：
+
+```
+middle: 这是中间的Div
+inner： 这是最里面的Button
+outer: 这是外面的Div
+```
+
+(4) .self 
+
+作用：不让子元素的事件触发自己绑定的事件，**但是不会阻止冒泡**
+
+```
+<div id="app"> 
+　　<div class="outer" @click="outer"> 
+　　　　<div class="middle" @click.self="middle"> 
+　　　　　　<button @click="inner">点击我(^_^)</button>
+    　　</div>
+    </div> 
+</div>
+```
+
+这里middle这有一个.self，当我们点击button的时候，先执行inner，传递到middle,但是.self阻止了middle的click事件，继续冒泡到outer，执行outer的click事件。
+
+运行结果：
+
+```
+	inner： 这是最里面的Button
+	outer: 这是外面的Div
+```
+
+(5) .once 事件只会触发一次
+
+```
+<button @click.once='inner'>点击我</button>
+```
+
+Vue中组件有的时候，属性带:,有的时候不带，什么区别？
+
+冒号后面为变量，会动态变化的值；一般属性后面为常量。
+
+this.$nextTick()将回调延迟到下次DOM更新循环之后执行。在修改数据之后立即使用它，然后等待DOM更新。它跟全局方法vue.nextTick一样，不同的是回调的this自动绑定到调用它的实例上。
+
+this.$nextTick()在页面交互，尤其是从后台获取数据后重新生成dom对象之后的操作有很大的优势。
+
+###### 父组件向子组件传值props
+
+1.定义父组件，父组件传递inputText这个数值给子组件：
+
+```
+//父组件
+//引入的add-widget组件
+//使用 v-bind 的缩写语法通常更简单：
+<add-widget :msg-val="msg"> //这里必须要用 - 代替驼峰
+// HTML 特性是不区分大小写的。所以，当使用的不是字符串模板，camelCased (驼峰式) 命名的 prop 需要转换为相对应的 kebab-case (短横线隔开式) 命名，当你使用的是字符串模板的时候，则没有这些限制 
+</add-widget>
+data(){
+    return {
+        msg: [1,2,3]
+    };
+}
+```
+
+2.定义子组件，子组件通过props方法获取父组件传递过来的值。props中可以定义能接收的数据类型，如果不符合会报错。
+
+```
+//子组件通过props来接收数据
+//方式1
+props: ['msgVal']
+//方式2
+props: {
+	msgVal: Array
+}
+//方式3
+props: {
+	msgVal: {
+		type: Array, //指定传入的类型
+		//type 也可以使一个自定义构造器函数，使用instanceof检测
+		default: [0,0,0] //这样可以指定默认的值
+	}
+}
+//注意props会在组件实例创建之前进行校验，所以在default或validator函数里，诸如data、computed或methods等实例属性还无法使用
+```
+
+注意：父子组件传值，数据是异步请求，有可能数据渲染时报错
+
+原因：异步请求时，数据还没有获取到但是此时已经渲染节点了
+
+解决方案：可以在父组件需要传递数据的节点加上v-If=isReady(isReady默认为false),异步请求获取数据后（isReady赋值为true）,v-if=isReady
+
+###### 子组件向父组件传递数据
+
+子组件通过$emit方法传递数据
+
+子组件： 子组件绑定个方法，$emit的方法名是父组件的方法名
+
+![img](https://img-blog.csdn.net/20180208172821122)
+
+父组件：触发父组件的方法，然后执行相应的操作
+
+![img](https://img-blog.csdn.net/20180208172849795)
+
+###### 子组件向子组件传递数据
+
+Vue没有直接子对子传参的方法，建议将需要传递数据的子组件，都合并为一个组件。如果一定需要子对子传参，可以先从传到父组件，再传到子组件。或者通过eventBus或vuex(小项目少页面用eventBus,大项目多页面使用vuex)传值。
+
+###### 画面迁移的组件之间传递数据
+
+1）通过路由带参数进行传值，例：两个组件A和B，A组件通过query把orderId传递给B组件
+
+A组件传值写法：
+
+```
+this.$router.push({ path: '/componentB', query: {orderId: 123}}) //跳转到B
+```
+
+B组件取值的写法
+
+```
+this.$route.query.orderId
+```
+
+设置路由导航的两种方法：
+
+声明式的导航 <router-link :to='...'>
+
+编程式的导航 router.push(...)
+
+传参的方式又分为查询参数query(+path)和命名路由params(+name)两种方式：
+
+- 命名路由搭配params，刷新页面参数会丢失
+- 查询参数搭配query,刷新页面数据不会丢失
+- 接受参数使用this.$router后面就是搭配路由的名称就能获取到参数的值
+
+2）通过设置Session Storage缓存的形式进行传递
+
+两个组件A和B，在A组件中设置缓存orderData
+
+```
+const orderData = {'orderId': 123, 'price': 88};
+sessionStorage.setItem('缓存名称', JSON.stringify(orderData));
+```
+
+B组件就可以获取在A中设置的缓存了
+
+```
+const dataB= JSON.parse(sessionStorage.getItem('缓存名称'));
+```
+
+3）通过provide/inject传值
+
+详情见：https://www.cnblogs.com/vickylinj/p/13368745.html
+
+4）通过$attrs、$listeners传值
+
+​    详情见：https://www.cnblogs.com/vickylinj/p/13376391.html
+
+src/router
+
+![image-20201117140134368](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20201117140134368.png)
+
+路由匹配时，props:true的作用：
+
+当在routes中设置props:true时，我们在组件中可以通过props:['id']获取路由中的参数（id参数）值，当props:false是无法获取的。
+
+如果我们不使用props属性，那么我们只能通过传统的方式在组件中获取参数数据，那么传统的方式为{{$route.params.id}}，那么传统的方式就是在组件中用到了路由对象，那么组件就和路由耦合了。
+
+变量作为对象的key的使用方法： [] 即变量外加[]
+
+```
+var lastWord = 'last word';
+    var a = {
+      'first word': 'hello',
+      [lastWord]: 'world'
+    };
+
+    a['first word'] // "hello"
+    a[lastWord] // "world"
+    a['last word'] // "world"
+```
+
+!!value  !!的作用-》类型转换，最终输出的是true或false
+
+数组：使用,声明一个空元素
+
+console.log([,2])
+
+```
+<style lang="scss" scoped>
+```
+
+lang属性，普通的style标签支持普通的样式，如果想要启用scss或less ,需要为style元素设置lang属性。
+
+scoped 属性，是用来专门用于标签元素内部的，它是通过CSS的属性选择器实现的。scoped只让样式渲染本组件，不会全局渲染。
+
+for (int m = 0; m < lines?.Length; m++)
+
+就问你装不装。?.的意义是，如果前面为空，则返回void.如果不为空则继续下去。是不是同时想起了?: 这种符号。
+
+这叫语法糖，减少你的代码量。
+
+js问号点(可选链)操作符【?.】【??】
+
+相信大家应该都写过类似的代码：
+
+ 
+
+let arr = res && res.data && res.data.list
+
+是不是非常不美观，今天介绍的新语法就是为了解决这种问题的
+
+可选链操作符?.
+
+来，用新语法再写一次
+
+let arr = res?.data?.list
+
+是不是很简洁了。
+
+还有，要是想设置默认值怎么办
+
+以前我们是这么写的
+
+let arr = res && res.data || []
+
+现在可以这样
+
+let arr = res?.res?.data ?? []
+
+这个??的意思是当左边的值为null或undefined的时候 就取??右边的值 
+
+###### 全局
+
+当你注册完之后，可以在任何组件中直接使用标签，而不需要在各个组件中引入并局部注册
+
+通常公共组件放在src文件夹下的components文件夹中，这里的组件进行全局注册。
+
+###### 局部
+
+页面中私有的组件放在各自的页面文件夹中并使用下面代码局部注册
+
+```
+import ComponentA from './ComponentA'
+import ComponentB from './ComponentB'
+export default {
+  name: "part",
+  components: { ComponentA, ComponentB },
+}
+```
+
+Vue.use()是全局注册插件 ，
+
+Vue.component()是全局注册组件。
+
+![image-20201117142515364](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20201117142515364.png)
+
+注册组件：
+
+![image-20201117142534691](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20201117142534691.png)
+
+![image-20201117142552885](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20201117142552885.png)
+
+![image-20201117142602844](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20201117142602844.png)
+
+通常我们在vue里面使用别人开发的组件，第一步就是install,第二步在main.js里面引入，第三步Vue.use这个组件。
+
+ 
+
+Vue.use()是全局注册插件 ，Vue.component()是全局注册组件。但是为什么会出现进行全局注册组件也使用到了use,而且成功了，自己写的组件会报错呢？
+
+后来看到一篇文章Vue.use自定义自己的全局组件，里面提到了自定义好组件后，对组件又进行了封装，封装成了插件，在方法中通过Vue.component对自定义的组件进行了全局注册。
+
+封装插件
+
+import MyLoading from './Loading.vue'
+
+// 这里是重点 在这个文件中使用install方法来全局注册该组件
+
+const Loading = {
+
+  install: function(Vue){
+
+​    Vue.component('Loading',MyLoading)
+
+  }
+
+}
+
+只要在index.js里规定了install方法，就可以向其他ui组件库那样，使用Vue.use()来全局使用
+
+相信很多人在用Vue使用别人的组件时，会用到 Vue.use() 。例如：Vue.use(VueRouter)、Vue.use(MintUI)。但是用 axios时，就不需要用 Vue.use(axios)，就能直接使用。那这是为什么呐？
+
+因为 axios 没有 install。 https://www.jianshu.com/p/89a05706917a
+
+https://blog.csdn.net/wang729506596/article/details/81018270
+
+当我们封装的插件是这样的：
+
+export const testObj = {
+
+install(Vue, arg) {
+
+​    }
+
+  }
+
+有install方法，那么就要使用Vue.use去初始化这个插件。这样写的好处就是插件需要一开始调用的方法都封装在install里面，更加精简和可拓展性更高。
+
+如果封装的插件是靠这个对象去调用方法，比如axios，那么直接用的就是export default暴露出一个对象，那么就不需要使用Vue.use。
+
+ 
+
+两者刚好让我们知道，如果一个插件是必须全部引入，那么使用暴露一整个对象，使用exportdefault或者是暴露一个用install的对象使用Vue.use。而像UI库那么庞大的插件，我们一般按需引入，那么就使用一个一个export的方法，使用花括号{}按需引入。
+
+ 
+
+***\*插件\****
+
+插件通常用来为 Vue 添加全局功能。插件的功能范围没有严格的限制——一般有下面几种：
+
+1.添加全局方法或者 property。如：[***\*vue-custom-element\****](https://github.com/karol-f/vue-custom-element)
+
+2.添加全局资源：指令/过滤器/过渡等。如 [***\*vue-touch\****](https://github.com/vuejs/vue-touch)
+
+3.通过全局混入来添加一些组件选项。如 [***\*vue-router\****](https://github.com/vuejs/vue-router)
+
+4.添加 Vue 实例方法，通过把它们添加到 Vue.prototype 上实现。
+
+5.一个库，提供自己的 API，同时提供上面提到的一个或多个功能。如 [***\*vue-router\****](https://github.com/vuejs/vue-router)
+
+***\*使用插件\****
+
+通过全局方法 Vue.use() 使用插件。它需要在你调用 new Vue() 启动应用之前完成：
+
+// 调用 `MyPlugin.install(Vue)` 
+
+Vue.use(MyPlugin) 
+
+new Vue({ // ...组件选项 })
+
+Vue.use 会自动阻止多次注册相同插件，届时即使多次调用也只会注册一次该插件。
+
+***\*i18n(其来源是英文单词internationalization的首末字符i和n，18为中间的字符数)是“国际化”的简称。在咨讯领域，国际化(i18n)指让产品（出版物，软件，硬件等）无需做大的改变就能够适应不同的语言和地区的需要。对程序来说，在不修改内部代码的情况下，能根据不同语言及地区显示相应的界面。在全球化的时代，国际化尤为重要，因为产品的潜在用户可能来自世界的各个角落。通常与i18n相关的还有L10n(\*******\*“\*******\*本地化\*******\*”\*******\*的简称)。\****
+
+***\*export default {\****
+
+***\*mixins：[form],\****
+
+***\*}\****
+
+***\*mixins:[form]的作用：\****
+
+vue中提供了一种混合机制--mixins，用来更高效的实现组件内容的复用。
+
+混合 (mixins) 是一种分发 Vue 组件中可复用功能的非常灵活的方式。
+混合对象可以包含任意组件选项。
+当组件使用混合对象时，所有混合对象的选项将被混入该组件本身的选项。
+
+组件在引用之后相当于在父组件内开辟了一块单独的空间，来根据父组件props过来的值进行相应的操作，单本质上两者还是泾渭分明，相对独立。
+
+而mixins则是在引入组件之后，则是将组件内部的内容如data等方法、method等属性与父组件相应内容进行合并。相当于在引入后，父组件的各种属性方法都被扩充了。
+
+· 单纯组件引用：
+***\*父组件 + 子组件 >>> 父组件 + 子组件\****
+
+· mixins：
+***\*父组件 + 子组件 >>> new父组件\****
+有点像注册了一个vue的公共方法，可以绑定在多个组件或者多个Vue对象实例中使用。另一点，类似于在原型对象中注册方法，实例对象即组件或者Vue实例对象中，仍然可以定义相同函数名的方法进行覆盖，有点像子类和父类的感觉。
+
+如果在引用mixins的同时，在组件中重复定义相同的方法，则mixins中的方法会被覆盖。
+
+***\*mixins的特点\****
+
+1 方法和参数在各组件中不共享
+
+2 值为对象的选项，如methods,components等，选项会被合并，键冲突的组件会覆盖混入对象的
+
+3 值为函数的选项，如created,mounted等，就会被合并调用，混合对象里的钩子函数在组件里的钩子函数之前调用
+
+与vuex的区别
+
+经过上面的例子之后，他们之间的区别应该很明显了哈~
+
+vuex：用来做状态管理的，里面定义的变量在每个组件中均可以使用和修改，在任一组件中修改此变量的值之后，其他组件中此变量的值也会随之修改。
+
+Mixins：可以定义共用的变量，在每个组件中使用，引入组件中之后，各个变量是相互独立的，值的修改在组件中不会相互影响。
+
+与公共组件的区别
+
+同样明显的区别来再列一遍哈~
+
+组件：在父组件中引入组件，相当于在父组件中给出一片独立的空间供子组件使用，然后根据props来传值，但本质上两者是相对独立的。
+
+Mixins：则是在引入组件之后与组件中的对象和方法进行合并，相当于扩展了父组件的对象与方法，可以理解为形成了一个新的组件。
+
+***\*顺序很重要. 默认情况下, mixins将首先被调用, 然后是组件, 所以我们可以根据需要来覆盖它(override). 就是说, 组件有最后的发言权. 这只有当冲突发生时才变得非常重要, 在这个时候, 组件必须决定哪一个胜出, 否则一切将被放置在一个数组中执行, mixins相关的放在前面, 然后是组件相关的.\****
