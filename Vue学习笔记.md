@@ -1576,3 +1576,45 @@ Mixins：则是在引入组件之后与组件中的对象和方法进行合并�
 ![img](https://img2018.cnblogs.com/blog/1513086/201812/1513086-20181206113612245-270150968.png)
 
 ![img](https://img2018.cnblogs.com/blog/1513086/201812/1513086-20181206113743400-603555001.png)
+
+###### Ajax请求放在Vue哪个生命周期中？
+
+mounted。axios是一个基于Promise的HTTP请求客户端，用来发生请求。
+
+为什么不在created里去发ajax ? created可是比mounted更早调用，更早调用意味着更早返回结果，那样性能不是更高？
+
+首先，一个组件的created比mounted也早调用不了几微秒，性能没啥提高；而且，等到异步渲染开启的时候，created就可能被中途打断，中断之后渲染又要重做一遍，想一想，在created中做ajax调用，代码里看到只有调用一次，但是实际上可能调用N多次，这明显不合适。相反，若把ajax放在mounted，因为mounted在第二阶段，所以绝对不会多次重复调用，这才是ajax合适的位置。
+
+在created的时候，视图中的dom并没有被渲染出来，所以此时如果直接去操作dom节点，无法找到相关元素。
+
+在mounted中，由于此时的dom元素已经渲染出来了，所以可以直接使用dom节点。
+
+一般情况下，都放在mounted中，保证逻辑的统一性。因为生命周期是同步执行的，ajax是异步执行的。
+
+###### computed与method的区别？
+
+computed是计算属性，method是方法。
+
+使用computed性能会很好，但是如果你不希望缓存，你可以使用methods方法。可以使用methods来替代computed，效果上两个都是一样的，但是computed是基于它的依赖缓存，只有相关依赖发生改变时才会重新取值。而使用methods,在重新渲染的时候，函数总会重新调用执行。
+
+computed必须返回一个值，页面绑定的才能取得值。而methods中可以只执行逻辑代码，可以有返回值，也可以没有。
+
+注意：computed不能计算data()中的属性。
+
+##### Vue生命周期
+
+**beforeCreate（创建前）:** 在数据观测和初始化事件还未开始,data、watcher、methods都还不存在，但是$route已存在，可以根据路由信息进行重定向等操作。
+
+**created(创建后)：**在实例创建之后被调用，该阶段可以访问data，使用watcher、events、methods，也就是说 数据观测(data observer) 和event/watcher 事件配置 已完成。但是此时dom还没有被挂载。该阶段允许执行http请求操作。
+
+**beforeMount （挂载前）：**将HTML解析生成AST节点，再根据AST节点动态生成渲染函数。相关render函数首次被调用(划重点)。
+
+**mounted (挂载后)：**在挂载完成之后被调用，执行render函数生成虚拟dom，创建真实dom替换虚拟dom，并挂载到实例。可以操作dom，比如事件监听
+
+**beforeUpdate：**vm.data更新之后，虚拟dom重新渲染之前被调用。在这个钩子可以修改vm.data更新之后，虚拟dom重新渲染之前被调用。在这个钩子可以修改*vm*.*data*更新之后，虚拟*dom*重新渲染之前被调用。在这个钩子可以修改vm.data，并不会触发附加的冲渲染过程。
+
+**updated：**虚拟dom重新渲染后调用，若再次修改$vm.data，会再次触发beforeUpdate、updated，进入死循环。
+
+**beforeDestroy：**实例被销毁前调用，也就是说在这个阶段还是可以调用实例的。
+
+**destroyed：**实例被销毁后调用，所有的事件监听器已被移除，子实例被销毁
