@@ -440,5 +440,29 @@ Accept-Language: en-US
 > X-Request-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
 
 
+如果想要让客户端可以访问到其他的首部信息，可以将它们在 `Access-Control-Expose-Headers` 里面列出来。
 
+##### Access-Control-Allow-Headers
+
+响应首部Access-Control-Allow-Headers用于{{glossary("preflight request")}}(预检请求)中，列出了将会在正式请求的）{{HTTPHeader("Access-Control-Request-Headers")}}字段中出现的首部信息。
+
+##### Access-Control-Expose-Headers
+
+响应首部Access-Control-Expose-Headers 列出了哪些首部可以作为响应的一部分暴露给外部。
+
+默认情况下，只有七种 [simple response headers](https://developer.mozilla.org/zh-CN/docs/Glossary/Simple_response_header) （简单响应首部）可以暴露给外部：
+
+- [`Cache-Control`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Cache-Control)
+- [`Content-Language`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Language)
+- [`Content-Length`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Length)
+- [`Content-Type`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Content-Type)
+- [`Expires`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Expires)
+- [`Last-Modified`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Last-Modified)
+- [`Pragma`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Pragma)
+
+如果想要让客户端可以访问到其他的首部信息，可以将它们在 `Access-Control-Expose-Headers` 里面列出来。
+
+##### Access-Control-Allow-Headers
+
+响应首部Access-Control-Allow-Headers用于{{glossary("preflight request")}}(预检请求)中，列出了将会在正式请求的）{{HTTPHeader("Access-Control-Request-Headers")}}字段中出现的首部信息。
 
