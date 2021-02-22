@@ -461,8 +461,3 @@ Accept-Language: en-US
 - [`Pragma`](https://developer.mozilla.org/zh-CN/docs/Web/HTTP/Headers/Pragma)
 
 如果想要让客户端可以访问到其他的首部信息，可以将它们在 `Access-Control-Expose-Headers` 里面列出来。
-
-##### Access-Control-Allow-Headers
-
-响应首部Access-Control-Allow-Headers用于{{glossary("preflight request")}}(预检请求)中，列出了将会在正式请求的）{{HTTPHeader("Access-Control-Request-Headers")}}字段中出现的首部信息。
-
