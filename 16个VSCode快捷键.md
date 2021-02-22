@@ -121,3 +121,4 @@ Ctrl+Shift+右箭头/左箭头
 
 Ctrl+Alt+Up/Down
 
+https://code.visualstudio.com/shortcuts/keyboard-shortcuts-windows.pdf windows 快捷键
