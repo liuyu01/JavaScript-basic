@@ -89,3 +89,39 @@ REST Client 它允许你发送 HTTP 请求并直接在 Visual Studio 代码中�
 ##### 23.vscode-icons  --一个可以给文件加对应的图标。设置-》文件图标主题-》安装其他文件图标主题-》vscode-icons
 
 我自己安装过：Code Spell Checker、indent-rainbow、Bracket Pair Colorizer 、Auto Close Tag 、 Auto Rename Tag、Material Theme 、 Live Server、vscode-icons、ESLint、Prettier-Code formatter、Vetur、VS Code Counter、Material Theme、vscode-fileheader 添加文件头 、reactjs code snippets --react 开发的一些简写，提高开发效率、Path Autocomplete 路径提示功能 、Code Runner 右键执行  run code、
+##### 1.格式化代码
+
+Shift + Alt + F
+
+##### 2.去掉尾随空格
+
+可以在用户设置页面设置，如下图
+
+![image-20210222111252447](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20210222111252447.png)
+
+##### 3.向上/向下复制行
+
+Shift + Alt + Up/Down
+
+##### 4.单词选中
+
+Ctrl+d
+
+##### 5.打开关闭侧边栏
+
+Ctrl+b
+
+##### 6.跳转到特定行
+
+在文件中进行行跳转，你可以用Ctrl+G，然后输入要跳转的行号，当然，你也可以使用Ctrl+P，然后输入:和要跳转的行号
+
+##### 7.选中词
+
+Ctrl+Shift+右箭头/左箭头
+
+##### 8.添加多个光标
+
+Ctrl+Alt+Up/Down
+
+
+
