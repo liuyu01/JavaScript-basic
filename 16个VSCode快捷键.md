@@ -122,6 +122,11 @@ Ctrl+Shift+右箭头/左箭头
 ##### 8.添加多个光标
 
 Ctrl+Alt+Up/Down
+##### 2.去掉尾随空格
+
+可以在用户设置页面设置，如下图
+
+![image-20210222111252447](C:\Users\Grace.Liu1\AppData\Roaming\Typora\typora-user-images\image-20210222111252447.png)
 
 
 
